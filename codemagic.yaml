@@ -1,13 +1,9 @@
 workflows:
   ios:
-    name: iOS build for Kivy app
-    max_build_duration: 60 # Max build time in minutes
+    name: iOS Build for Kivy App
+    max_build_duration: 60 # Max build duration in minutes
     environment:
-      vars:
-        FLUTTER: stable # Optional if you're using Flutter
-      macos:
-        version: latest # Or specify the exact macOS version you need
-        xcode: latest  # Use the latest Xcode version for iOS builds
+      flutter: stable # If you're building a Flutter project, otherwise remove this line
     scripts:
       - name: Install dependencies
         script: |
@@ -15,9 +11,11 @@ workflows:
           brew install libffi
           pip install --upgrade pip virtualenv
           pip install buildozer cython
-          sudo apt install -y buildozer
+          brew install pkg-config
+          brew install sdl2
       - name: Run Buildozer iOS build
         script: |
-          buildozer ios debug  # iOS build command
+          buildozer ios debug  # Command to build iOS version using Buildozer
     artifacts:
-      - build/outputs/*  # This will include the IPA or related iOS build artifacts
+      - build/ios/ipa/*.ipa  # Path to the generated IPA files (check your output directories)
+
