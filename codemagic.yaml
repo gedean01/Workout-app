@@ -1,0 +1,23 @@
+workflows:
+  kivy_workflow:
+    name: "Kivy Build"
+    environment:
+      # Use the Linux VM for Buildozer
+      os: linux
+      python: "3.9"
+      working_directory: "."
+    scripts:
+      # Install dependencies
+      - name: Install dependencies
+        script: |
+          sudo apt update
+          sudo apt install -y git zip unzip build-essential libssl-dev libffi-dev python3-dev python3-venv python3-pip
+          pip install --upgrade pip virtualenv
+          pip install buildozer cython
+          sudo apt install -y buildozer
+      # Run Buildozer to build the APK
+      - name: Build the APK
+        script: |
+          buildozer android debug
+    artifacts:
+      - build/outputs/*  # This is where Buildozer stores the APK file
