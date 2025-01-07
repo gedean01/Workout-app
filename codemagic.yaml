@@ -1,21 +1,23 @@
 workflows:
-  kivy_workflow:
-    name: "Kivy Build"
-    # Remove the 'image' field, it's not necessary in the environment section
+  ios:
+    name: iOS build for Kivy app
+    max_build_duration: 60 # Max build time in minutes
     environment:
-      operating_system: macos  # Select the macOS environment for iOS builds
-      flutter: stable  # If you're not using Flutter, you can remove this line
-      xcode: latest  # Use the latest version of Xcode
+      vars:
+        FLUTTER: stable # Optional if you're using Flutter
+      macos:
+        version: latest # Or specify the exact macOS version you need
+        xcode: latest  # Use the latest Xcode version for iOS builds
     scripts:
       - name: Install dependencies
         script: |
-          sudo apt update
-          sudo apt install -y git zip unzip build-essential libssl-dev libffi-dev python3-dev python3-venv python3-pip
+          brew install python3
+          brew install libffi
           pip install --upgrade pip virtualenv
           pip install buildozer cython
           sudo apt install -y buildozer
-      - name: Build the APK (or iOS App)
+      - name: Run Buildozer iOS build
         script: |
-          buildozer ios debug  # Change to `buildozer android debug` for APK builds
+          buildozer ios debug  # iOS build command
     artifacts:
-      - build/outputs/*  # Collect the output files such as APK or iOS build
+      - build/outputs/*  # This will include the IPA or related iOS build artifacts
