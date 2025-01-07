@@ -13,6 +13,7 @@ workflows:
           pip install buildozer cython
           brew install pkg-config
           brew install sdl2
+          brew install automake
       - name: Run Buildozer iOS build
         script: |
           buildozer ios debug  # Command to build iOS version using Buildozer
